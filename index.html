@@ -26,13 +26,172 @@
     <header class="jumbotron">
       <h1 class="display-3">Work Day Scheduler</h1>
       <p class="lead">A simple calendar app for scheduling your work day</p>
+      <h2>Time: <span id="timer"></span></h2>
       <p id="currentDay" class="lead"></p>
     </header>
     <div class="container">
       <!-- Timeblocks go here -->
+      <table style="width:100%">
+        <tr>
+          <th>Time</th>
+          <th>Events</th>
+          <th id="hide">Save</th>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">9:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="9"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="9">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">10:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="10"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="10">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">11:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="11"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="11">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">12:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="12"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="12">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">13:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="13"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="13">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">14:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="14"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="14">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">15:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="15"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="15">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">16:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="16"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="16">Save</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="hour" style="width:20%">17:00</td>
+          <td style="width:60%">
+            <textarea class="event" rows="1" cols="70" id="17"></textarea>
+          </td>
+          <td style="width:20%">
+            <button class="saveBtn" data-time="17">Save</button>
+          </td>
+        </tr>
+      </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script>
+
+      // Save button
+      $(".saveBtn").on("click", function(event) {
+          event.preventDefault();
+
+          var input = $("#"+($(this).attr("data-time"))).val().trim();
+          console.log("Input: "+input);
+          // $("textarea").text(input)
+          //var newDiv = $("<div>").text(input)
+          // $(this).text(input)
+          //$(".event").append(newDiv)
+          localStorage.setItem($(this).attr("data-time"), $("#"+($(this).attr("data-time"))).val().trim());
+      })
+
+      // Display time at top of screen
+ setInterval(() => {
+  var time = moment().format('H[:]mm[:]ss');
+      //var newH = $("<h2>").text(time);
+      $("#timer").text(time);
+     // $(".jumbotron").append(newH)
+
+     /*for(var i=9;i<=17;i++){
+      $("#"+i).val(localStorage.getItem(i));
+     }*/
+ }, 1000);
+
+function noteUpdate()
+{
+  var currentHour = moment().format("H")
+  console.log(currentHour)
+  for(var i=9;i<=17;i++){
+      $("#"+i).val(localStorage.getItem(i));
+      if (i < currentHour) {
+        $("#"+i).addClass("past");
+      }
+      else if(i===currentHour){
+        $("#"+i).addClass("present");
+        $("#"+i).removeClass("past");
+      }
+      else{
+        $("#"+i).addClass("future");
+        $("#"+i).removeClass("past");
+        $("#"+i).removeClass("present");
+      }
+     }
+}
+noteUpdate();
+
+
+ setInterval(() => {
+    noteUpdate();
+ }, 10000);
+
+      /*var time = moment().format('H[:]mm[:]ss');
+      console.log(time)
+      var newH = $("<h2>").text(time)
+      $(".jumbotron").append(newH)*/
+
+      
+      // value of H (the hour in moment, line 139)
+      // assign values to each time ie <td value=9>9:00</td>
+      // if (value td < value of L) give it the attribute "past"
+      // if (value td > value of L) give it the attribute "future"
+      // if (value of td = value of L) give it the attribute "present"
+
+      //how to make the clock tick on the page?
+      //how to get the clock in military time?
+
+    </script>
   </body>
 </html>
